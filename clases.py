@@ -3,28 +3,47 @@ from datetime import datetime
 #clase/objeto para manejar las citas de manera mas controlada
 class ControlCitas:
     def __init__(self):
-        #uso de listas temporal
-        self.citas = []
-        self.usuarios = []
+        # ahora usamos diccionarios
+        self.citas = {}      # {id_cita: Cita}
+        self.usuarios = {}   # {id_usuario: Usuario}
 
-    def AgregarCita(self,_cita):        
-        self.citas.append(_cita)
+    def AgregarCita(self, _cita):        
+        self.citas[_cita.id] = _cita
 
-    def EditarFechaCita(self,_idCita,_anio, _mes, _dia, _hora, _minutos):
-        self.citas[_idCita].setFecha(_anio, _mes, _dia, _hora, _minutos)
+    def AgregarUser(self, _usr):
+        # asignar id automático
+        _usr.id = len(self.usuarios)
+        self.usuarios[_usr.id] = _usr
 
-    def CancelarCita(self,_idCita):
-        self.citas[_idCita].cancelar()
+    def EditarFechaCita(self, _idCita, _anio, _mes, _dia, _hora, _minutos):
+        if _idCita in self.citas:
+            self.citas[_idCita].setFecha(_anio, _mes, _dia, _hora, _minutos)
 
-    def getUsuarioDatos(self,_idCita):
-        id_usr = self.citas[_idCita].getUsuario()
-        self.usuarios[id_usr].getDatos()
+    def CancelarCita(self, _idCita):
+        if _idCita in self.citas:
+            self.citas[_idCita].cancelar()
+
+    def getUsuarioDatos(self, _idCita):
+        if _idCita in self.citas:
+            id_usr = self.citas[_idCita].getUsuario()
+            if id_usr in self.usuarios:
+                return self.usuarios[id_usr].getDatos()
+
+    def PrintCitas(self, _idCita="t"):
+        if _idCita == "t":
+            for cita in self.citas.values():
+                print(cita)
+        else:
+            if _idCita in self.citas:
+                print(self.citas[_idCita])
+            
+
     
 #Clase de datos de usuarios registrados
 class Usuario:
-    def __init__(self,_n,_a,_r,_s,_k):
+    def __init__(self,_n = "test",_a ="test ",_r ="test",_s ="Hombre",_k="si"):
         self.id = 0
-        self.nombre = _n
+        self.nombre = _n 
         self.apellidos = _a
         self.rut = _r
         self.sexo = _s
@@ -77,8 +96,8 @@ class Cita:
         self.fecha = datetime(_anio, _mes, _dia, _hora, _minutos)
 
     def __repr__(self):
-        return (f"Cita(id={self.id}, fecha={self.fecha}, "
-                f"usuario={self.usuario_id}, docente='{self.docente}', asunto='{self.asunto}')")
+        return (f"Cita(id={self.id},\nfecha={self.fecha}, "
+                f"usuario={self.usuario_id}\ndocente='{self.docente}'\nasunto='{self.asunto}')")
 
 
 # Lista donde se almacenan las citas
@@ -96,4 +115,11 @@ def agregar_cita(lista, anio, mes, dia, hora, minutos, usuario_id, docente, asun
 c1 = agregar_cita(lista_citas, 2026, 4, 11, 11,11,11, "Dr. Pérez", "Consulta general")
 c2 = agregar_cita(lista_citas, 2026, 4, 12, 12,11,11, "Dra. López", "Revisión médica")
 
-print(lista_citas)
+Manager1 = ControlCitas()
+Manager1.AgregarCita(Cita(2026, 4, 11, 11,11,0, "Dr. lopez", "Consulta general"))
+Manager1.AgregarCita(Cita(2026, 4, 11, 11,11,0, "Dr. yimi", "Consulta normal"))
+
+Manager1.PrintCitas()
+
+
+
