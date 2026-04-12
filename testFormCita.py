@@ -2,7 +2,7 @@ import sys
 from PySide6.QtWidgets import (
     QApplication, QWidget, QLabel, QLineEdit,
     QPushButton, QVBoxLayout, QFormLayout,
-    QMessageBox, QDateEdit,QCalendarWidget
+    QMessageBox, QDateEdit,QCalendarWidget,QTimeEdit
 )
 from PySide6.QtCore import QDate
 
@@ -26,6 +26,9 @@ class Formulario(QWidget):
         #self.fecha.setCalendarPopup(True)
         self.fecha.setDate(QDate.currentDate())
         self.calendario.clicked.connect(self.fecha.setDate)
+        self.hora = QTimeEdit()
+        self.hora.setDisplayFormat("HH:mm")
+        
 
         # Botón
         self.boton = QPushButton("Guardar")
@@ -38,7 +41,9 @@ class Formulario(QWidget):
         layout.addRow("Asunto:", self.asunto)
         layout.addRow("Fecha:", self.fecha)
         layout.addWidget(self.calendario)
+        layout.addRow(self.hora)
         layout.addRow(self.boton)
+      
 
         self.setLayout(layout)
 
