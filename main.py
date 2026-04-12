@@ -11,7 +11,8 @@ from testListaDocentes import ListaDocentesWidget # Importación lista docentes
 
 # Importación de los formularios desarrollados
 from testFormDocente import FormularioDocente
-from testFormCita import Formulario as FormularioCita
+from Forms.testFormCita import Formulario as FormularioCita
+from Forms.testFormUsr import FormularioUser as FormUser
 
 class VentanaPrincipal(QMainWindow):
     def __init__(self, usuario_activo):
@@ -55,6 +56,10 @@ class VentanaPrincipal(QMainWindow):
         # Índice 3: Nueva vista de lista de docentes
         self.lista_docentes = ListaDocentesWidget()
         self.content_area.addWidget(self.lista_docentes)
+        
+        # Indice 4: Formulario Agregar Usuario
+        self.form_usr = FormUser()
+        self.content_area.addWidget(self.form_usr)
 
     def inicializar_menu(self):
         lbl_menu = QLabel("MENÚ PRINCIPAL")
@@ -81,6 +86,11 @@ class VentanaPrincipal(QMainWindow):
             btn_ver_docentes = QPushButton("Ver Docentes")
             btn_ver_docentes.clicked.connect(self.cambiar_a_lista_docentes)
             self.sidebar.addWidget(btn_ver_docentes)
+
+            btn_agendar = QPushButton("Agregar Usuario")
+            btn_agendar.clicked.connect(lambda: self.content_area.setCurrentIndex(4))
+            self.sidebar.addWidget(btn_agendar)
+            
 
         elif rol == "PACIENTE":
             btn_agendar = QPushButton("Agendar Cita")

@@ -2,7 +2,8 @@ import sys
 from PySide6.QtWidgets import (
     QApplication, QWidget, QLabel, QLineEdit,
     QPushButton, QVBoxLayout, QFormLayout,
-    QMessageBox, QDateEdit,QCalendarWidget,QTimeEdit
+    QMessageBox, QDateEdit,QCalendarWidget,QTimeEdit,QSpinBox
+    ,QComboBox
 )
 from PySide6.QtCore import QDate
 
@@ -11,24 +12,31 @@ class FormularioUser(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("Formulario de Cita")
+        self.setWindowTitle("Formulario de Usuario")
 
         # Crear layout de formulario
         layout = QFormLayout()
 
         # Campos
-        self.nombre = QLineEdit()
-        self.docente = QLineEdit()
-        self.asunto = QLineEdit()
+        self.nombre    = QLineEdit()
+        self.apellidos = QLineEdit()
+        self.rut       = QLineEdit()
+        self.fechaN    = QDateEdit()
+        self.sexo      = QComboBox()
+        self.test      = QLineEdit()
 
         self.fecha = QDateEdit()
         self.calendario = QCalendarWidget()
+        
+        self.sexo.addItems(["---","Hombre","Mujer"])
+        
         #self.fecha.setCalendarPopup(True)
         self.fecha.setDate(QDate.currentDate())
         self.calendario.clicked.connect(self.fecha.setDate)
         self.hora = QTimeEdit()
         self.hora.setDisplayFormat("HH:mm")
         
+
 
         # Botón
         self.boton = QPushButton("Guardar")
@@ -37,11 +45,10 @@ class FormularioUser(QWidget):
 
         # Agregar al layout
         layout.addRow("Nombre:", self.nombre)
-        layout.addRow("Apellidos:", self.docente)
-        layout.addRow("Asunto:", self.asunto)
-        layout.addRow("Fecha:", self.fecha)
-        layout.addWidget(self.calendario)
-        layout.addRow(self.hora)
+        layout.addRow("Apellidos:", self.apellidos)
+        layout.addRow("Rut:", self.rut)
+        layout.addRow("Sexo:", self.sexo)
+        layout.addRow("FechaNacimiento:", self.fecha)
         layout.addRow(self.boton)
       
 
