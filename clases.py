@@ -1,3 +1,5 @@
+from datetime import datetime
+
 #clase/objeto para manejar las citas de manera mas controlada
 class ControlCitas:
     def __init__(self):
@@ -8,6 +10,9 @@ class ControlCitas:
     def AgregarCita(self,_cita):        
         self.citas.append(_cita)
 
+    def EditarFechaCita(self,_idCita,_anio, _mes, _dia, _hora, _minutos):
+        self.citas[_idCita].setFecha(_anio, _mes, _dia, _hora, _minutos)
+
     def CancelarCita(self,_idCita):
         self.citas[_idCita].cancelar()
 
@@ -15,8 +20,7 @@ class ControlCitas:
         id_usr = self.citas[_idCita].getUsuario()
         self.usuarios[id_usr].getDatos()
     
-#clase de datos de usuarios registrados
-
+#Clase de datos de usuarios registrados
 class Usuario:
     def __init__(self,_n,_a,_r,_s,_k):
         self.id = 0
@@ -39,44 +43,41 @@ class Usuario:
         pass
 
     def getDatos(self):
-
-        
-        
+        pass
 
     
 class Cita:
     _contador_id = 1  # variable de clase para autoincremento
 
-    def __init__(self, anio, mes, dia, usuario_id, docente, asunto):
+    def __init__(self, _anio, _mes, _dia, _hora, _minutos, _usuario_id, _docente, _asunto):
         # Validar asunto
-        if len(asunto) > 200:
+        if len(_asunto) > 200:
             raise ValueError("El asunto no puede superar los 200 caracteres")
 
-        # Validación simple de fecha
-        if not (1 <= mes <= 12):
-            raise ValueError("Mes inválido")
-        if not (1 <= dia <= 31):
-            raise ValueError("Día inválido")
-
+        # ID autoincremental
         self.id = Cita._contador_id
         Cita._contador_id += 1
 
-        self.anio = anio
-        self.mes = mes
-        self.dia = dia
-        self.usuario_id = usuario_id
-        self.docente = docente
-        self.asunto = asunto
-        self.estado = 1 #0 = cancelado, 1 = activo, 2 = ausente, 3 = concluida
+        self.fecha = datetime(_anio, _mes, _dia, _hora, _minutos)
+
+        self.usuario_id = _usuario_id
+        self.docente = _docente
+        self.asunto = _asunto
+        self.estado = 1  # 0=cancelado, 1=activo, 2=ausente, 3=concluida
+
+    #-----Metodos-----
 
     def cancelar(self):
         self.estado = 0
 
     def getUsuario(self):
         return self.usuario_id
+    
+    def setFecha(self,_anio, _mes, _dia, _hora, _minutos):
+        self.fecha = datetime(_anio, _mes, _dia, _hora, _minutos)
 
     def __repr__(self):
-        return (f"Cita(id={self.id}, fecha={self.dia}/{self.mes}/{self.anio}, "
+        return (f"Cita(id={self.id}, fecha={self.fecha}, "
                 f"usuario={self.usuario_id}, docente='{self.docente}', asunto='{self.asunto}')")
 
 
@@ -85,14 +86,14 @@ lista_citas = []
 
 
 # Función para agregar citas a la lista
-def agregar_cita(lista, anio, mes, dia, usuario_id, docente, asunto):
-    cita = Cita(anio, mes, dia, usuario_id, docente, asunto)
+def agregar_cita(lista, anio, mes, dia, hora, minutos, usuario_id, docente, asunto):
+    cita = Cita(anio, mes, dia, hora, minutos, usuario_id, docente, asunto)
     lista.append(cita)
     return cita
 
 
 # Ejemplo de uso
-c1 = agregar_cita(lista_citas, 2026, 4, 11, 101, "Dr. Pérez", "Consulta general")
-c2 = agregar_cita(lista_citas, 2026, 4, 12, 102, "Dra. López", "Revisión médica")
+c1 = agregar_cita(lista_citas, 2026, 4, 11, 11,11,11, "Dr. Pérez", "Consulta general")
+c2 = agregar_cita(lista_citas, 2026, 4, 12, 12,11,11, "Dra. López", "Revisión médica")
 
 print(lista_citas)
