@@ -13,6 +13,7 @@ from testListaDocentes import ListaDocentesWidget # Importación lista docentes
 from testFormDocente import FormularioDocente
 from Forms.testFormCita import Formulario as FormularioCita
 from Forms.testFormUsr import FormularioUser as FormUser
+from Views.viewCitas import ViewCitas as VCitas
 
 class VentanaPrincipal(QMainWindow):
     def __init__(self, usuario_activo):
@@ -61,6 +62,9 @@ class VentanaPrincipal(QMainWindow):
         self.form_usr = FormUser()
         self.content_area.addWidget(self.form_usr)
 
+        self.view_cita = VCitas()
+        self.content_area.addWidget(self.view_cita)
+
     def inicializar_menu(self):
         lbl_menu = QLabel("MENÚ PRINCIPAL")
         lbl_menu.setStyleSheet("font-weight: bold; font-size: 14px; padding-bottom: 10px;")
@@ -87,9 +91,13 @@ class VentanaPrincipal(QMainWindow):
             btn_ver_docentes.clicked.connect(self.cambiar_a_lista_docentes)
             self.sidebar.addWidget(btn_ver_docentes)
 
-            btn_agendar = QPushButton("Agregar Usuario")
-            btn_agendar.clicked.connect(lambda: self.content_area.setCurrentIndex(4))
-            self.sidebar.addWidget(btn_agendar)
+            btn_AgUsr = QPushButton("Agregar Usuario")
+            btn_AgUsr.clicked.connect(lambda: self.content_area.setCurrentIndex(4))
+            self.sidebar.addWidget(btn_AgUsr)
+
+            btn_citas = QPushButton("Ver Citas")
+            btn_citas.clicked.connect(lambda: self.content_area.setCurrentIndex(5))
+            self.sidebar.addWidget(btn_citas)
             
 
         elif rol == "PACIENTE":
