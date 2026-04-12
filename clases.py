@@ -41,29 +41,26 @@ class ControlCitas:
     
 #Clase de datos de usuarios registrados
 class Usuario:
-    def __init__(self,_n = "test",_a ="test ",_r ="test",_s ="Hombre",_k="si"):
-        self.id = 0
+    def __init__(self, _id =0, _n = "test",_a ="test ",_r ="test", _rol = "Paciente", _s ="Hombre",_k="si"):
+        self.id = _id
         self.nombre = _n 
         self.apellidos = _a
         self.rut = _r
         self.sexo = _s
+        self.rol = _rol
         self.test = _k
 
     def getDatos(self,id=0):
-        res = [self.nombre, self.apellidos, self.rut, self.sexo]    
+        res = [self.nombre, self.apellidos, self.rut, self.sexo, self.rol]    
         if id == 1:
             res.append(self.id)
         return res
     
-    def getTipos():
+    def getTipos(self):
         pass
 
-    def editDatos():
+    def editDatos(self):
         pass
-
-    def getDatos(self):
-        pass
-
     
 class Cita:
     _contador_id = 1  # variable de clase para autoincremento
@@ -112,14 +109,14 @@ def agregar_cita(lista, anio, mes, dia, hora, minutos, usuario_id, docente, asun
 
 
 # Ejemplo de uso
-c1 = agregar_cita(lista_citas, 2026, 4, 11, 11,11,11, "Dr. Pérez", "Consulta general")
-c2 = agregar_cita(lista_citas, 2026, 4, 12, 12,11,11, "Dra. López", "Revisión médica")
-
-Manager1 = ControlCitas()
-Manager1.AgregarCita(Cita(2026, 4, 11, 11,11,0, "Dr. lopez", "Consulta general"))
-Manager1.AgregarCita(Cita(2026, 4, 11, 11,11,0, "Dr. yimi", "Consulta normal"))
-
-Manager1.PrintCitas()
+#c1 = agregar_cita(lista_citas, 2026, 4, 11, 11,11,11, "Dr. Pérez", "Consulta general")
+#c2 = agregar_cita(lista_citas, 2026, 4, 12, 12,11,11, "Dra. López", "Revisión médica")
+#
+#Manager1 = ControlCitas()
+#Manager1.AgregarCita(Cita(2026, 4, 11, 11,11,0, "Dr. lopez", "Consulta general"))
+#Manager1.AgregarCita(Cita(2026, 4, 11, 11,11,0, "Dr. yimi", "Consulta normal"))
+#
+#Manager1.PrintCitas()
 
 
 
