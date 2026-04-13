@@ -1,76 +1,106 @@
-import sys
 from PySide6.QtWidgets import (
-    QApplication, QWidget, QLabel, QLineEdit,
-    QPushButton, QVBoxLayout, QFormLayout,
-    QMessageBox, QDateEdit,QCalendarWidget,QTimeEdit
+    QWidget, QLineEdit, QPushButton, QFormLayout,
+    QMessageBox, QComboBox, QDateEdit, QTimeEdit, QSpinBox
 )
 from PySide6.QtCore import QDate
+import sqlite3
 
 
-class Formulario(QWidget):
+class FormularioCita(QWidget):
     def __init__(self):
         super().__init__()
+        self.setWindowTitle("Registro de Nueva Cita")
+        self.setFixedSize(400, 300)
+        self.inicializar_ui()
 
-        self.setWindowTitle("Formulario de Cita")
-
-        # Crear layout de formulario
+    def inicializar_ui(self):
         layout = QFormLayout()
 
-        # Campos
-        self.nombre = QLineEdit()
-        self.docente = QLineEdit()
-        self.asunto = QLineEdit()
+        # 🔹 Campos
+        self.spn_usuario_id = QSpinBox()
+        self.spn_usuario_id.setMinimum(1)
+        self.spn_usuario_id.setMaximum(9999)
 
-        self.fecha = QDateEdit()
-        self.calendario = QCalendarWidget()
-        #self.fecha.setCalendarPopup(True)
-        self.fecha.setDate(QDate.currentDate())
-        self.calendario.clicked.connect(self.fecha.setDate)
-        self.hora = QTimeEdit()
-        self.hora.setDisplayFormat("HH:mm")
-        
+        self.txt_docente = QLineEdit()
+        self.txt_asunto = QLineEdit()
 
-        # Botón
-        self.boton = QPushButton("Guardar")
-        self.boton.clicked.connect(self.guardar)
-        self.fecha.dateChanged.connect(self.calendario.setSelectedDate)
+        self.date_fecha = QDateEdit()
+        self.date_fecha.setDate(QDate.currentDate())
 
-        # Agregar al layout
-        layout.addRow("Nombre:", self.nombre)
-        layout.addRow("Docente:", self.docente)
-        layout.addRow("Asunto:", self.asunto)
-        layout.addRow("Fecha:", self.fecha)
-        layout.addWidget(self.calendario)
-        layout.addRow(self.hora)
-        layout.addRow(self.boton)
-      
+        self.time_hora = QTimeEdit()
+        self.time_hora.setDisplayFormat("HH:mm")
+
+        self.cbx_estado = QComboBox()
+        self.cbx_estado.addItems(["Activa", "Cancelada", "Ausente", "Concluida"])
+
+        # 🔹 Agregar al layout
+        layout.addRow("ID Usuario:", self.spn_usuario_id)
+        layout.addRow("Docente:", self.txt_docente)
+        layout.addRow("Asunto:", self.txt_asunto)
+        layout.addRow("Fecha:", self.date_fecha)
+        layout.addRow("Hora:", self.time_hora)
+        layout.addRow("Estado:", self.cbx_estado)
+
+        # 🔹 Botón
+        self.btn_guardar = QPushButton("Registrar Cita")
+        self.btn_guardar.clicked.connect(self.guardar_cita)
+        layout.addRow(self.btn_guardar)
 
         self.setLayout(layout)
 
-    def guardar(self):
-        nombre = self.nombre.text()
-        docente = self.docente.text()
-        asunto = self.asunto.text()
-        fecha = self.fecha.date()
+    def guardar_cita(self):
+        # 🔹 Obtener datos
+        usuario_id = self.spn_usuario_id.value()
+        docente = self.txt_docente.text().strip()
+        asunto = self.txt_asunto.text().strip()
+        fecha = self.date_fecha.date()
+        hora = self.time_hora.time()
 
-        if not nombre or not docente:
-            QMessageBox.warning(self, "Error", "Campos obligatorios vacíos")
+        # 🔹 Mapear estado
+        estado_map = {
+            "Cancelada": 0,
+            "Activa": 1,
+            "Ausente": 2,
+            "Concluida": 3
+        }
+        estado = estado_map[self.cbx_estado.currentText()]
+
+        # 🔴 Validación
+        if not docente or not asunto:
+            QMessageBox.warning(self, "Error", "Docente y Asunto son obligatorios.")
             return
 
-        # Obtener valores de fecha
-        anio = fecha.year()
-        mes = fecha.month()
-        dia = fecha.day()
+        try:
+            conn = sqlite3.connect("sistema_citas.db")
+            cursor = conn.cursor()
 
-        QMessageBox.information(
-            self,
-            "Guardado",
-            f"Cita para {nombre}\nDocente: {docente}\nFecha: {dia}/{mes}/{anio}\nAsunto: {asunto}"
-        )
+            cursor.execute('''INSERT INTO citas 
+                (anio, mes, dia, hora, minutos, usuario_id, docente, asunto, estado)
+                VALUES (?,?,?,?,?,?,?,?,?)''',
+                (
+                    fecha.year(),
+                    fecha.month(),
+                    fecha.day(),
+                    hora.hour(),
+                    hora.minute(),
+                    usuario_id,
+                    docente,
+                    asunto,
+                    estado
+                )
+            )
 
+            conn.commit()
+            conn.close()
 
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    ventana = Formulario()
-    ventana.show()
-    sys.exit(app.exec())
+            QMessageBox.information(self, "Éxito", "Cita registrada correctamente.")
+            self.limpiar_campos()
+
+        except Exception as e:
+            QMessageBox.critical(self, "Error", f"Error de base de datos: {e}")
+
+    def limpiar_campos(self):
+        self.txt_docente.clear()
+        self.txt_asunto.clear()
+        self.spn_usuario_id.setValue(1)
+        self.date_fecha.setDate(QDate.currentDate())

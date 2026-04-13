@@ -10,9 +10,10 @@ from test_db import inicializar_db, validar_credenciales # Importación de la ba
 from testListaDocentes import ListaDocentesWidget # Importación lista docentes
 
 # Importación de los formularios desarrollados
+from testListaCitas import ListaCitasWidget
 from testFormDocente import FormularioDocente
-from Forms.testFormCita import Formulario as FormularioCita
-from Forms.testFormUsr import FormularioUser as FormUser
+from Forms.testFormCita import FormularioCita as FormularioCita
+from Forms.FUsrM import FormularioUser as FormUser
 from Views.viewCitas import ViewCitas as VCitas
 
 class VentanaPrincipal(QMainWindow):
@@ -43,7 +44,7 @@ class VentanaPrincipal(QMainWindow):
         # Índice 0: Pantalla de Inicio
         self.pag_inicio = QLabel(f"Bienvenido(a), {self.usuario.nombre} {self.usuario.apellidos}.\n\nSeleccione una opción en el menú lateral.")
         self.pag_inicio.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.pag_inicio.setStyleSheet("font-size: 18px; color: #333;")
+        self.pag_inicio.setStyleSheet("font-size: 18px; color: #00FF00;")
         self.content_area.addWidget(self.pag_inicio)
 
         # Índice 1: Formulario de Registro de Docentes
@@ -62,7 +63,7 @@ class VentanaPrincipal(QMainWindow):
         self.form_usr = FormUser()
         self.content_area.addWidget(self.form_usr)
 
-        self.view_cita = VCitas()
+        self.view_cita = ListaCitasWidget()
         self.content_area.addWidget(self.view_cita)
 
     def inicializar_menu(self):

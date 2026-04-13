@@ -1,5 +1,5 @@
 import sqlite3
-from clases import Usuario,Cita
+from clases import Usuario
 
 def inicializar_db():
     conn = sqlite3.connect("sistema_citas.db")
@@ -14,20 +14,6 @@ def inicializar_db():
         rut TEXT,
         sexo TEXT,
         rol TEXT
-    )''')
-
-    cursor.execute('''CREATE TABLE IF NOT EXISTS citas (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        anio INTEGER,
-        mes INTEGER,
-        dia INTEGER,
-        hora INTEGER,
-        minutos INTEGER,
-        usuario_id INTEGER,
-        docente TEXT,
-        asunto TEXT,
-        estado INTEGER,
-        FOREIGN KEY(usuario_id) REFERENCES usuarios(id)
     )''')
 
     cursor.execute("SELECT COUNT(*) FROM usuarios")
@@ -45,25 +31,6 @@ def inicializar_db():
                               VALUES (?,?,?,?,?,?,?)''', usuarios_prueba)
         conn.commit()
     
-    cursor.execute("SELECT COUNT(*) FROM citas")
-    if cursor.fetchone()[0] == 0:
-        citas_prueba = [
-            # (anio, mes, dia, hora, minutos, usuario_id, docente, asunto, estado)
-            (2026, 4, 15, 10, 30, 5, 'Dra. María López', 'Chequeo general', 1),
-            (2026, 4, 15, 11, 0, 6, 'Dr. Pedro Pérez', 'Dolor de cabeza', 1),
-            (2026, 4, 16, 9, 15, 5, 'Dr. Yimi', 'Control médico', 1),
-            (2026, 4, 17, 14, 45, 6, 'Dra. María López', 'Examen anual', 1),
-            (2026, 4, 18, 16, 0, 5, 'Dr. Pedro Pérez', 'Consulta seguimiento', 2),  # ausente
-            (2026, 4, 19, 8, 30, 6, 'Dr. Yimi', 'Vacunación', 3),  # concluida
-            (2026, 4, 20, 12, 0, 5, 'Dra. María López', 'Revisión resultados', 0)  # cancelada
-        ]
-
-        cursor.executemany('''INSERT INTO citas 
-            (anio, mes, dia, hora, minutos, usuario_id, docente, asunto, estado)
-            VALUES (?,?,?,?,?,?,?,?,?)''', citas_prueba)
-
-        conn.commit()
-
     conn.close()
 
 def validar_credenciales(u, p):
@@ -104,22 +71,6 @@ def obtener_todos_docentes():
             _s=f[4],
             _rol=f[5]
         ))
+
+        
     return docentes
-
-
-def obtener_todas_citas():
-    conn = sqlite3.connect("sistema_citas.db")
-    cursor = conn.cursor()
-
-    cursor.execute("SELECT * FROM citas")
-    filas = cursor.fetchall()
-    conn.close()
-
-    citas = []
-    for f in filas:
-        c = Cita(f[1], f[2], f[3], f[4], f[5], f[6], f[7], f[8])
-        c.id = f[0]
-        c.estado = f[9]
-        citas.append(c)
-
-    return citas
