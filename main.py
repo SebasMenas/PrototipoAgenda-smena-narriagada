@@ -41,6 +41,11 @@ class VentanaPrincipal(QMainWindow):
         self.inicializar_menu()
 
     def inicializar_paginas(self):
+        
+        num = 0
+        if self.usuario.rol.upper() == "PACIENTE":
+            num = 3
+        
         # Índice 0: Pantalla de Inicio
         self.pag_inicio = QLabel(f"Bienvenido(a), {self.usuario.nombre} {self.usuario.apellidos}.\n\nSeleccione una opción en el menú lateral.")
         self.pag_inicio.setAlignment(Qt.AlignmentFlag.AlignCenter)
@@ -52,7 +57,7 @@ class VentanaPrincipal(QMainWindow):
         self.content_area.addWidget(self.form_docente)
 
         # Índice 2: Formulario de Agendamiento de Citas
-        self.form_cita = FormularioCita()
+        self.form_cita = FormularioCita(num)
         self.content_area.addWidget(self.form_cita)
 
         # Índice 3: Nueva vista de lista de docentes
@@ -63,9 +68,16 @@ class VentanaPrincipal(QMainWindow):
         self.form_usr = FormUser()
         self.content_area.addWidget(self.form_usr)
 
+        # Indice 5: Vista para ver las citas
         self.view_cita = ListaCitasWidget()
         self.content_area.addWidget(self.view_cita)
+        
+        # Indice 6: Ver Solicitudes
+        #self.view_soli =
 
+        # Indice 
+
+    
     def inicializar_menu(self):
         lbl_menu = QLabel("MENÚ PRINCIPAL")
         lbl_menu.setStyleSheet("font-weight: bold; font-size: 14px; padding-bottom: 10px;")

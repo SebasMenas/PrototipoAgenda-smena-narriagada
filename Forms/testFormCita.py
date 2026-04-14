@@ -7,13 +7,13 @@ import sqlite3
 
 
 class FormularioCita(QWidget):
-    def __init__(self):
+    def __init__(self, _t):
         super().__init__()
         self.setWindowTitle("Registro de Nueva Cita")
         self.setFixedSize(400, 300)
-        self.inicializar_ui()
+        self.inicializar_ui(_t)
 
-    def inicializar_ui(self):
+    def inicializar_ui(self,_tipoU):
         layout = QFormLayout()
 
         # 🔹 Campos
@@ -34,7 +34,8 @@ class FormularioCita(QWidget):
         self.cbx_estado.addItems(["Activa", "Cancelada", "Ausente", "Concluida"])
 
         # 🔹 Agregar al layout
-        layout.addRow("ID Usuario:", self.spn_usuario_id)
+        if not(_tipoU == 3):
+            layout.addRow("ID Usuario:", self.spn_usuario_id)
         layout.addRow("Docente:", self.txt_docente)
         layout.addRow("Asunto:", self.txt_asunto)
         layout.addRow("Fecha:", self.date_fecha)
