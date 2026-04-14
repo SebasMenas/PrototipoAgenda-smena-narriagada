@@ -43,7 +43,6 @@ def inicializar_db():
         cursor.executemany('''INSERT INTO usuarios 
                               (username, password, nombre, apellidos, rut, sexo, rol) 
                               VALUES (?,?,?,?,?,?,?)''', usuarios_prueba)
-        conn.commit()
     
     cursor.execute("SELECT COUNT(*) FROM citas")
     if cursor.fetchone()[0] == 0:

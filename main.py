@@ -109,7 +109,7 @@ class VentanaPrincipal(QMainWindow):
             self.sidebar.addWidget(btn_AgUsr)
 
             btn_citas = QPushButton("Ver Citas")
-            btn_citas.clicked.connect(lambda: self.content_area.setCurrentIndex(5))
+            btn_citas.clicked.connect(self.cambiar_a_lista_citas)
             self.sidebar.addWidget(btn_citas)
             
 
@@ -128,6 +128,10 @@ class VentanaPrincipal(QMainWindow):
     def cambiar_a_lista_docentes(self):
         self.lista_docentes.actualizar_tabla()
         self.content_area.setCurrentIndex(3)
+
+    def cambiar_a_lista_citas(self):
+        self.view_cita.actualizar_tabla()
+        self.content_area.setCurrentIndex(5)
 
 class LoginWindow(QWidget):
     def __init__(self):

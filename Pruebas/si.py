@@ -19,3 +19,4 @@ ventana = Ventana()
 ventana.resize(400, 300)
 ventana.show()
 sys.exit(app.exec())
+
