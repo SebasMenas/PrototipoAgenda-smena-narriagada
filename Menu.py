@@ -1,19 +1,14 @@
-import sys
 from PySide6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, 
     QHBoxLayout, QPushButton, QStackedWidget, QLabel)
 from PySide6.QtCore import Qt
-
-from test_db import inicializar_db, validar_credenciales # Importación de la base de datos
-from testListaDocentes import ListaDocentesWidget # Importación lista docentes
-
+#Vistas
+from Views.testListaDocentes import ListaDocentesWidget # Importación lista docentes
+from Views.tListaCitas import ListaCitasWidget
 # Importación de los formularios desarrollados
-from testListaCitas import ListaCitasWidget
-from testFormDocente import FormularioDocente
+from Forms.testFormDocente import FormularioDocente
 from Forms.testFormCita import FormularioCita as FormularioCita
 from Forms.FUsrM import FormularioUser as FormUser
-from Views.viewCitas import ViewCitas as VCitas
-
 
 class VentanaPrincipal(QMainWindow):
     def __init__(self, usuario_activo):
