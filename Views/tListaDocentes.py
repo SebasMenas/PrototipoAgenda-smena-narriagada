@@ -1,4 +1,7 @@
-from PySide6.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView, QVBoxLayout, QWidget
+from PySide6.QtWidgets import (
+    QTableWidget, QTableWidgetItem, QHeaderView, 
+    QVBoxLayout,  QWidget)
+
 
 class ListaDocentesWidget(QWidget):
     def __init__(self):
@@ -15,7 +18,7 @@ class ListaDocentesWidget(QWidget):
 
     def actualizar_tabla(self): # Consulta base de datos y actualiza la tabla
 
-        from test_db import obtener_todos_docentes
+        from localDb import obtener_todos_docentes
         docentes = obtener_todos_docentes()
         
         self.tabla.setRowCount(len(docentes))

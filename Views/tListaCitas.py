@@ -1,4 +1,6 @@
-from PySide6.QtWidgets import QTableWidget, QTableWidgetItem, QHeaderView, QVBoxLayout, QWidget
+from PySide6.QtWidgets import (
+    QTableWidget, QTableWidgetItem, QHeaderView,
+    QVBoxLayout,  QWidget)
 
 class ListaCitasWidget(QWidget):
     def __init__(self):
@@ -16,7 +18,7 @@ class ListaCitasWidget(QWidget):
         self.actualizar_tabla()
 
     def actualizar_tabla(self):
-        from test_db import obtener_todas_citas
+        from localDb import obtener_todas_citas
         citas = obtener_todas_citas()
 
         self.tabla.setRowCount(len(citas))

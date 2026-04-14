@@ -1,8 +1,7 @@
 import sys
 from PySide6.QtWidgets import QApplication
-from test_db import inicializar_db # Importación de la base de datos
+from localDb import inicializar_db # Importación de la base de datos
 # Importación de los formularios desarrollados
-from Forms.testFormCita import FormularioCita as FormularioCita
 from login import LoginWindow
 
 if __name__ == "__main__":

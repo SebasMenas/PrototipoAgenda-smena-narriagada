@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import (
     QWidget, QLineEdit, QPushButton, QFormLayout, QMessageBox, QComboBox
 )
-from test_db import sqlite3
+import sqlite3
 
 class FormularioDocente(QWidget):
     def __init__(self):

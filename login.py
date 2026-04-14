@@ -1,13 +1,12 @@
 from PySide6.QtWidgets import (
-    QApplication, QWidget, QVBoxLayout, QPushButton, QLabel, 
-    QLineEdit, QMessageBox
-)
+    QWidget, QVBoxLayout, QPushButton, 
+    QLabel, QLineEdit, QMessageBox)
+
 from PySide6.QtCore import Qt
 
-from test_db import inicializar_db, validar_credenciales # Importación de la base de datos
+from localDb import validar_credenciales # Importación de la base de datos
 # Importación de los formularios desarrollados
-from Forms.testFormCita import FormularioCita as FormularioCita
-from Menu import VentanaPrincipal
+from menu import VentanaPrincipal
 
 class LoginWindow(QWidget):
     def __init__(self):

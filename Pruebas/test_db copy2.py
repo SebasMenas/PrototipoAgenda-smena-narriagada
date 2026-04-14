@@ -1,5 +1,5 @@
 import sqlite3
-from clases import Usuario,Cita
+from localDb.clases import Usuario,Cita
 
 def inicializar_db():
     conn = sqlite3.connect("sistema_citas.db")

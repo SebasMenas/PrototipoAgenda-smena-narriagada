@@ -2,13 +2,13 @@ from PySide6.QtWidgets import (
     QMainWindow, QWidget, QVBoxLayout, 
     QHBoxLayout, QPushButton, QStackedWidget, QLabel)
 from PySide6.QtCore import Qt
-#Vistas
-from Views.testListaDocentes import ListaDocentesWidget # Importación lista docentes
-from Views.tListaCitas import ListaCitasWidget
-# Importación de los formularios desarrollados
-from Forms.testFormDocente import FormularioDocente
-from Forms.testFormCita import FormularioCita as FormularioCita
-from Forms.FUsrM import FormularioUser as FormUser
+
+# Importacion de Vistas(Views)
+from Views import ListaDocentesWidget,ListaCitasWidget # Importación lista docentes
+
+
+# Importación de Formularios(Forms) 
+from Forms import FormularioDocente,FormularioCita, FormularioUser
 
 class VentanaPrincipal(QMainWindow):
     def __init__(self, usuario_activo):
@@ -59,7 +59,7 @@ class VentanaPrincipal(QMainWindow):
         self.content_area.addWidget(self.lista_docentes)
         
         # Indice 4: Formulario Agregar Usuario
-        self.form_usr = FormUser()
+        self.form_usr = FormularioUser()
         self.content_area.addWidget(self.form_usr)
 
         # Indice 5: Vista para ver las citas

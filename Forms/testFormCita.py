@@ -3,7 +3,7 @@ from PySide6.QtWidgets import (
     QMessageBox, QComboBox, QDateEdit, QTimeEdit, QSpinBox
 )
 from PySide6.QtCore import QDate
-import sqlite3
+from localDb import sqlite3
 
 
 class FormularioCita(QWidget):
